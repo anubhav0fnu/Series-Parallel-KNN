@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -o ./pknn.out
+#PBS -e ./pknn.errors
+#PBS -lnodes=4:ppn=16:compute,walltime=28:40:00
+cd $PBS_O_WORKDIR
+ulimit -s unlimited
+mpiifort -xHost dist1.f90 knn.f90 main.f90 
+mpirun -perhost 16 -np 16 ./a.out
+mpiifort -xHost dist1.f90 knn.f90 main.f90
+mpirun -perhost 16 -np 32 ./a.out
+mpiifort -xHost dist1.f90 knn.f90 main.f90
+mpirun -perhost 16 -np 64 ./a.out
+
+

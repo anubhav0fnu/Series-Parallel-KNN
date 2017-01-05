@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS  -o ./serialrun.out
+#PBS  -e ./serialrun.errors
+#PBS -lnodes=1:ppn=16:compute,walltime=48:10:00
+cd $PBS_O_WORKDIR
+ulimit -s unlimited
+export OMP_WAIT_POLICY=ACTIVE
+export OMP_PROC_BIND=true
+ifort dist.f90 knn.f90 main.f90 -mkl=sequential -qopenmp
+./a.out
+
